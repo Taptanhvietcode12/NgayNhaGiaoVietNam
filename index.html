@@ -10,8 +10,8 @@
   justify-content: center; /* căn giữa theo chiều ngang */
   align-items: center;      /* căn giữa theo chiều dọc */
   gap: 20px;                /* khoảng cách giữa các logo */
- margin-bottom: 110px;    /* tạo khoảng cách giữa logo và dòng chữ bên dưới */
-  margin-top: -100px;        /* cách phần tiêu đề phía dưới */
+ margin-bottom: 70px;    /* tạo khoảng cách giữa logo và dòng chữ bên dưới */
+  margin-top: -150px;        /* cách phần tiêu đề phía dưới */
 }
 
 .logo-container img {
@@ -66,7 +66,7 @@
       padding:20px;
       box-shadow:0 10px 30px rgba(0,0,0,0.1);
       position:absolute;
-      top: 55%;
+      top: 50%;
       opacity:0;
       transform:translateY(40px);
       transition:opacity 0.8s ease, transform 0.8s ease;
@@ -138,11 +138,34 @@
       opacity:0;
       animation:fall 3s linear forwards;
     }
-    @keyframes fall {
-      0% {opacity:1; transform:translateY(-20px) rotate(0);}
-      100% {opacity:1; transform:translateY(600px) rotate(540deg);}
-    }
-
+   @keyframes fall {
+  0% {
+    opacity: 1;
+    transform: translateY(-20px) rotate(0);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0; /* 🔹 mờ dần khi sắp chạm đất */
+    transform: translateY(600px) rotate(540deg);
+  }
+  
+} 
+    .falling-flower {
+  position: fixed;
+  top: -10px;
+  font-size: 24px;
+  animation: fallFlower linear forwards;
+  pointer-events: none;
+   z-index: -1; /* 🌸 cho xuống lớp sau */
+}
+@keyframes fallFlower {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
   </style>
 </head>
 <body>
@@ -152,7 +175,7 @@
   <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/d/dd/Huy_hi%E1%BB%87u_H%E1%BB%99i_SVVN.svg/500px-Huy_hi%E1%BB%87u_H%E1%BB%99i_SVVN.svg.png" alt="Logo 3">
 </div>
 
-  <h1>MỪNG NGÀY NHÀ GIÁO VIỆT NAM</h1>
+  <h1 style="font-size: 40px;""> CHÀO MỪNG NGÀY NHÀ GIÁO VIỆT NAM<br> 20/11</h1>
 
   <div class="envelope" id="envelope"></div>
   <div class="letter" id="letter">
@@ -162,7 +185,6 @@
       <br >--------Bấm vào để xem bức thư-------
     </div>
   </div>
-
   <div class="card-overlay" id="overlay">
     <div class="card">
       <button class="close-btn" id="close">✕</button>
@@ -215,5 +237,21 @@
       
     }
   </script>
+  <div class="flowers" id="flowers"></div>
+
+<script>
+const flowersContainer = document.getElementById('flowers');
+function createFlower() {
+  const flower = document.createElement('span');
+  flower.classList.add('falling-flower');
+  flower.style.left = Math.random() * 100 + 'vw';
+  flower.style.animationDuration = (3 + Math.random() * 3) + 's';
+  flower.innerHTML = '🌸';
+  flowersContainer.appendChild(flower);
+  setTimeout(() => flower.remove(), 6000);
+}
+setInterval(createFlower, 400);
+</script>
+
 </body>
 </html>
