@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="vi">
 <head>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mừng Ngày Nhà Giáo Việt Nam</title>
@@ -376,12 +384,12 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('yt-player', {
     height: '0',
     width: '0',
-    videoId: 'sj_UDyfoo-A',
+    videoId: 'sj_UDyfoo-A', // Mã video YouTube
     playerVars: { 
-      autoplay: 1,  // tự phát
+      autoplay: 1,
       loop: 1,
       playlist: 'sj_UDyfoo-A',
-      mute: 1       // tắt tiếng ban đầu để được phép autoplay
+      mute: 1
     },
     events: {
       onReady: (event) => event.target.playVideo()
@@ -389,15 +397,45 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
-// Khi người dùng click bất kỳ chỗ nào lần đầu → bật tiếng
+// Khi người dùng click bất kỳ lần đầu → bật tiếng
 document.addEventListener('click', () => {
   if (player && player.isMuted()) {
     player.unMute();
+    toggleBtn.textContent = "🔊"; // đổi icon khi đã bật tiếng
   }
 }, { once: true });
+
+// 🔘 Tạo nút bật/tắt nhạc
+const toggleBtn = document.createElement('button');
+toggleBtn.id = "toggleMusic";
+toggleBtn.innerHTML = "🔇"; // icon mặc định (vì ban đầu mute)
+Object.assign(toggleBtn.style, {
+  position: 'fixed',
+  bottom: '20px',
+  left: '20px',
+  width: '50px',
+  height: '50px',
+  borderRadius: '50%',
+  border: 'none',
+  background: '#b3475f',
+  color: 'white',
+  fontSize: '22px',
+  cursor: 'pointer',
+  boxShadow: '0 4px 10px rgba(0,0,0,0.25)',
+  zIndex: '9999',
+});
+document.body.appendChild(toggleBtn);
+
+// 🎚️ Sự kiện khi bấm nút
+toggleBtn.addEventListener('click', () => {
+  if (!player) return;
+  if (player.isMuted()) {
+    player.unMute();
+    toggleBtn.textContent = "🔊";
+  } else {
+    player.mute();
+    toggleBtn.textContent = "🔇";
+  }
+});
 </script>
-
-
-</body>
-</html>
 
