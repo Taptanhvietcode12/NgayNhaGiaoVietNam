@@ -24,8 +24,7 @@
   width: 260px;
   height: 180px;
   background: #f6c6cf;
-  border-radius: 6px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  border-radius: 0px;
   overflow: hidden;
   perspective: 1000px;
 }
@@ -43,10 +42,11 @@
 /* Nắp phong bì (đóng ban đầu) */
 .envelope-flap {
   position: absolute;
-  top: 0;
+  top: 95px;
   left: 0;
   width: 100%;
-  height: 50%;
+  height: 30%;
+  overflow: visible; 
   background: #f3aab8;
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   transform-origin: top;
@@ -118,25 +118,73 @@ h1 {
 }
 @keyframes glowText { 0%{background-position:0%}100%{background-position:100%} }
 
-.envelope { width:320px;height:320px;background:url('https://png.pngtree.com/png-clipart/20230202/ourmid/pngtree-simple-love-envelopes-png-image_6583208.png') center/contain no-repeat;position:relative;margin-top:-50px;cursor:pointer;transition:transform 0.6s ease;animation:up 3s linear infinite; }
+.envelope { width:320px;height:320px;background: center/contain no-repeat;position:relative;margin-top:-50px;cursor:pointer;transition:transform 0.6s ease;animation:up 3s linear infinite; }
 @keyframes up {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+
+/* Khi mở phong bì */
 .envelope.open {transform:translateY(-50px) scale(0.95);opacity:0.3;}
-.letter {width:300px;background:#fff;border-radius:10px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,0.1);position:absolute;top:50%;opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease;cursor:pointer;}
+
+/* Thiệp nhỏ */
+.letter {
+  width:300px;
+  background:#fff;
+  border-radius:10px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  position:absolute;
+  top:40%;
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 0.8s ease,transform 0.8s ease;
+}
 .envelope.open + .letter {opacity:1;transform:translateY(-10px);}
 .letter .title {text-align:center;color:#b3475f;font-weight:bold;font-size:20px;margin-bottom:10px;}
 .letter .message {font-size:15px;color:#333;line-height:1.6;}
-.card-overlay {position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s ease;}
+.view-card-btn {
+  margin-top: 10px;
+  display:inline-block;
+  background:#b3475f;
+  color:#fff;
+  border:none;
+  border-radius:20px;
+  padding:8px 15px;
+  cursor:pointer;
+  font-size:14px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+.view-card-btn:hover {background:#d65a78;}
+
+/* Overlay card */
+.card-overlay {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .4s ease;
+}
 .card-overlay.show {opacity:1;pointer-events:auto;}
-.card {background:#fff;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,0.2);width:600px;max-width:95vw;padding:30px;text-align:center;position:relative;overflow:hidden;}
+.card {
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.2);
+  width:600px;
+  max-width:95vw;
+  padding:30px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
 .card img {width:100%;border-radius:10px;margin-bottom:15px;}
 .card h2 {color:#b3475f;margin-bottom:10px;}
 .close-btn {position:absolute;top:10px;right:15px;background:none;border:none;font-size:22px;cursor:pointer;color:#b3475f;}
 .confetti span {position:absolute;width:10px;height:14px;opacity:0;animation:fall 3s linear forwards;}
 @keyframes fall {0%{opacity:1;transform:translateY(-20px) rotate(0);}90%{opacity:1;}100%{opacity:0;transform:translateY(600px) rotate(540deg);}}
-.falling-flower {position:fixed;top:-10px;font-size:24px;animation:fallFlower linear forwards;pointer-events:none;z-index:-1;}
-@keyframes fallFlower {to{transform:translateY(100vh) rotate(360deg);opacity:0;}}
 
-/* 🖼️ Nút phóng to ảnh */
+/* Nút phóng to ảnh */
 .zoom-btn {
   position: absolute;
   bottom: 15px;
@@ -150,17 +198,15 @@ h1 {
   cursor: pointer;
   box-shadow: 0 3px 6px rgba(0,0,0,0.2);
   transition: all 0.2s ease;
+  z-index: 5;
 }
-.zoom-btn:hover {
-  background-color: #b3475f;
-  transform: scale(1.05);
-}
+.zoom-btn:hover { background-color: #b3475f; transform: scale(1.05); }
 
-/* Hiệu ứng popup phóng to */
+/* Modal phóng to ảnh */
 .zoom-modal {
   display: none;
   position: fixed;
-  z-index: 2000;
+  z-index: 4000;
   left: 0; top: 0;
   width: 100%; height: 100%;
   background-color: rgba(0,0,0,0.85);
@@ -178,6 +224,10 @@ h1 {
   from { transform: scale(0.5); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* Hoa rơi */
+.falling-flower {position:fixed;top:-10px;font-size:24px;animation:fallFlower linear forwards;pointer-events:none;z-index:-1;}
+@keyframes fallFlower {to{transform:translateY(100vh) rotate(360deg);opacity:0;}}
   </style>
 </head>
 <body>
@@ -192,27 +242,6 @@ h1 {
   <button id="openCard">Mở thiệp 💌</button>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const flap = document.querySelector('.envelope-flap');
-  const letter = document.querySelector('.envelope-letter');
-  const wrapper = document.getElementById('envelope-wrapper');
-
-  document.getElementById('openCard').addEventListener('click', () => {
-    flap.style.transform = 'rotateX(180deg)';
-    setTimeout(() => { letter.style.bottom = '10%'; }, 600);
-    setTimeout(() => {
-      wrapper.style.opacity = '0';
-      wrapper.style.pointerEvents = 'none';
-      if (window.player && player.playVideo) {
-        player.playVideo();
-        player.setVolume(50);
-      }
-    }, 2200);
-  });
-});
-</script>
-
 <!-- 🌸 Nội dung chính -->
 <div class="logo-container">
  <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/0/09/Huy_Hi%E1%BB%87u_%C4%90o%C3%A0n.png/250px-Huy_Hi%E1%BB%87u_%C4%90o%C3%A0n.png" alt="Logo 2">
@@ -224,11 +253,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <div class="envelope" id="envelope"></div>
 <div class="letter" id="letter">
-  <div class="title">Gửi đến Thầy/Cô kính mến</div>
+  <div class="title">Gửi Thầy/Cô kính mến</div>
   <div class="message">
-    “Một đời người - một dòng sông. Mấy ai làm kẻ đứng trông bên bờ. Muốn qua sông phải luỵ đò. Đường đời muôn bước cậy nhờ người đưa”. Nếu như mỗi năm học qua đi là một chuyến đò, học trò là một người khách qua sông, thì thầy cô chính là người lái đò thầm lặng chèo lái con đò ấy với bến bờ tri thức.
-    <br>----------Bấm vào để xem tiếp----------
+    “Một đời người - một dòng sông. Mấy ai làm kẻ đứng trông bên bờ. Muốn qua sông phải luỵ đò. Đường đời muôn bước cậy nhờ người đưa”。
+    <br>Nếu như mỗi năm học qua đi là một chuyến đò, học trò là một người khách qua sông, thì thầy cô chính là người lái đò thầm lặng chèo lái con đò ấy với bến bờ tri thức.
   </div>
+  <button class="view-card-btn" id="viewCardBtn">🌷 Xem thiệp 🌷</button>
 </div>
 
 <div class="card-overlay" id="overlay">
@@ -239,37 +269,58 @@ document.addEventListener('DOMContentLoaded', function () {
       <button class="zoom-btn" onclick="openZoom()">🔍 Phóng to</button>
     </div>
     <h2>Nhân Ngày Nhà Giáo Việt Nam 20/11</h2>
-    <p>Em xin kính chúc thầy cô luôn giữ mãi ngọn lửa nhiệt huyết,<br> để mỗi bài giảng vẫn là một khúc nhạc ngân nga, <br> mỗi trang phấn trắng vẫn là một bức họa đầy niềm tin.<br>
-Cầu mong cho thầy cô luôn khỏe mạnh, hạnh phúc, và mãi là ngọn hải đăng soi đường cho những con thuyền nhỏ giữa đại dương tri thức..</p>
+    <p>Em xin kính chúc thầy cô luôn giữ mãi ngọn lửa nhiệt huyết,<br>để mỗi bài giảng vẫn là một khúc nhạc ngân nga,<br>mỗi trang phấn trắng vẫn là một bức họa đầy niềm tin.<br>
+    Cầu mong cho thầy cô luôn khỏe mạnh, hạnh phúc, và mãi là ngọn hải đăng soi đường cho những con thuyền nhỏ giữa đại dương tri thức.</p>
     <div class="confetti" id="confetti"></div>
   </div>
 </div>
 
-<!-- 📸 Modal phóng to ảnh -->
+<!-- Modal phóng to ảnh -->
 <div id="zoomModal" class="zoom-modal" onclick="closeZoom()">
-  <img id="zoomImg" src="https://github.com/Taptanhvietcode12/NgayNhaGiaoVietNam/blob/main/B%C3%A0i%20%C4%91%C4%83ng%20Facebook%20Ch%C3%BAc%20m%E1%BB%ABng%20Nh%C3%A0%20gi%C3%A1o%20Vi%E1%BB%87t%20nam%202011%20Hi%E1%BB%87n%20%C4%91%E1%BA%A1i%20T%E1%BB%91i%20gi%E1%BA%A3n%20Xanh%20v%C3%A0ng%20(2).png?raw=true" alt="Phóng to thiệp">
+  <img id="zoomImg" src="" alt="Phóng to thiệp">
 </div>
 
 <script>
-function openZoom() {
-  document.getElementById("zoomModal").style.display = "flex";
-}
-function closeZoom() {
-  document.getElementById("zoomModal").style.display = "none";
-}
-</script>
-
-<script>
+const flap = document.querySelector('.envelope-flap');
+const letterInside = document.querySelector('.envelope-letter');
+const wrapper = document.getElementById('envelope-wrapper');
+const smallCard = document.getElementById('letter');
 const envelope = document.getElementById('envelope');
-const letter = document.getElementById('letter');
 const overlay = document.getElementById('overlay');
 const closeBtn = document.getElementById('close');
+const viewBtn = document.getElementById('viewCardBtn');
 const confettiContainer = document.getElementById('confetti');
 
-envelope.addEventListener('click', () => envelope.classList.add('open'));
-letter.addEventListener('click', () => { overlay.classList.add('show'); launchConfetti(); });
-closeBtn.addEventListener('click', () => { overlay.classList.remove('show'); confettiContainer.innerHTML = ''; });
-overlay.addEventListener('click', (e) => { if (e.target === overlay) { overlay.classList.remove('show'); confettiContainer.innerHTML = ''; }});
+// mở phong bì -> hiện thiệp nhỏ
+document.getElementById('openCard').addEventListener('click', () => {
+  flap.style.transform = 'rotateX(180deg)';
+  setTimeout(() => { letterInside.style.bottom = '10%'; }, 600);
+  setTimeout(() => {
+    wrapper.style.opacity = '0';
+    wrapper.style.pointerEvents = 'none';
+    envelope.classList.add('open');
+    smallCard.style.opacity = '1';
+    smallCard.style.transform = 'translateY(-10px)';
+  }, 2200);
+});
+
+// mở overlay khi bấm xem thiệp
+viewBtn.addEventListener('click', () => {
+  overlay.classList.add('show');
+  launchConfetti();
+});
+
+// đóng overlay
+closeBtn.addEventListener('click', () => {
+  overlay.classList.remove('show');
+  confettiContainer.innerHTML = '';
+});
+overlay.addEventListener('click', e => {
+  if (e.target === overlay) {
+    overlay.classList.remove('show');
+    confettiContainer.innerHTML = '';
+  }
+});
 
 function launchConfetti() {
   confettiContainer.innerHTML = '';
@@ -283,8 +334,22 @@ function launchConfetti() {
     confettiContainer.appendChild(c);
   }
 }
+
+// 🔍 Zoom ảnh
+function openZoom() {
+  const src = document.getElementById('card-img').getAttribute('src');
+  document.getElementById('zoomImg').src = src;
+  document.getElementById('zoomModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeZoom() {
+  document.getElementById('zoomModal').style.display = 'none';
+  document.getElementById('zoomImg').src = '';
+  document.body.style.overflow = '';
+}
 </script>
 
+<!-- 🌸 Hoa rơi -->
 <div class="flowers" id="flowers"></div>
 <script>
 const flowersContainer = document.getElementById('flowers');
@@ -299,31 +364,40 @@ function createFlower() {
 }
 setInterval(createFlower, 400);
 </script>
-
 <!-- 🎵 Nhạc nền YouTube -->
 <div id="yt-player" style="display:none;"></div>
 <script>
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 document.body.appendChild(tag);
+
 var player;
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('yt-player', {
     height: '0',
     width: '0',
     videoId: 'sj_UDyfoo-A',
-    playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'sj_UDyfoo-A' },
+    playerVars: { 
+      autoplay: 1,  // tự phát
+      loop: 1,
+      playlist: 'sj_UDyfoo-A',
+      mute: 1       // tắt tiếng ban đầu để được phép autoplay
+    },
+    events: {
+      onReady: (event) => event.target.playVideo()
+    }
   });
 }
+
+// Khi người dùng click bất kỳ chỗ nào lần đầu → bật tiếng
+document.addEventListener('click', () => {
+  if (player && player.isMuted()) {
+    player.unMute();
+  }
+}, { once: true });
 </script>
-<button id="toggleYT" style="position:fixed;bottom:20px;left:20px;background:#b3475f;color:white;border:none;border-radius:50%;width:50px;height:50px;font-size:20px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.2);">▶️</button>
-<script>
-const btn = document.getElementById('toggleYT');
-btn.addEventListener('click', () => {
-  if (player.getPlayerState() !== 1) { player.playVideo(); btn.textContent = "⏸️"; }
-  else { player.pauseVideo(); btn.textContent = "▶️"; }
-});
-</script>
+
 
 </body>
 </html>
+
