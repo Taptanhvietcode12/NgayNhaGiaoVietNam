@@ -50,7 +50,7 @@
   background: #f3aab8;
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   transform-origin: top;
-  transform: rotateX(0deg); /* ✅ Nắp đóng lúc đầu */
+  transform: rotateX(0deg);
   transition: transform 1s ease;
   z-index: 2;
 }
@@ -58,7 +58,7 @@
 /* Lá thư – giấu sâu bên trong */
 .envelope-letter {
   position: absolute;
-  bottom: -200%; /* ✅ Ẩn hoàn toàn */
+  bottom: -200%;
   left: 50%;
   transform: translateX(-50%);
   width: 80%;
@@ -70,7 +70,7 @@
   padding: 10px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   transition: bottom 1s ease 0.5s;
-  z-index: 0; /* dưới flap */
+  z-index: 0;
 }
 
 /* Nút mở thiệp */
@@ -88,8 +88,7 @@
 }
 #openCard:hover { transform: scale(1.05); }
 
-
-/* 🌷 Các style cũ của bạn vẫn giữ nguyên phía dưới */
+/* 🌷 Các style cũ */
 .logo-container {
   display: flex;
   justify-content: center;
@@ -100,6 +99,7 @@
 }
 .logo-container img { width: 50px; transition: transform 0.3s ease; }
 .logo-container img:hover { transform: scale(1.1); }
+
 * {margin:0;padding:0;box-sizing:border-box;}
 body {
   font-family: 'Segoe UI', sans-serif;
@@ -117,6 +117,7 @@ h1 {
   text-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
 }
 @keyframes glowText { 0%{background-position:0%}100%{background-position:100%} }
+
 .envelope { width:320px;height:320px;background:url('https://png.pngtree.com/png-clipart/20230202/ourmid/pngtree-simple-love-envelopes-png-image_6583208.png') center/contain no-repeat;position:relative;margin-top:-50px;cursor:pointer;transition:transform 0.6s ease;animation:up 3s linear infinite; }
 @keyframes up {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
 .envelope.open {transform:translateY(-50px) scale(0.95);opacity:0.3;}
@@ -134,6 +135,49 @@ h1 {
 @keyframes fall {0%{opacity:1;transform:translateY(-20px) rotate(0);}90%{opacity:1;}100%{opacity:0;transform:translateY(600px) rotate(540deg);}}
 .falling-flower {position:fixed;top:-10px;font-size:24px;animation:fallFlower linear forwards;pointer-events:none;z-index:-1;}
 @keyframes fallFlower {to{transform:translateY(100vh) rotate(360deg);opacity:0;}}
+
+/* 🖼️ Nút phóng to ảnh */
+.zoom-btn {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background-color: #d65a78;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+}
+.zoom-btn:hover {
+  background-color: #b3475f;
+  transform: scale(1.05);
+}
+
+/* Hiệu ứng popup phóng to */
+.zoom-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+}
+.zoom-modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+  animation: zoomIn 0.3s ease;
+}
+@keyframes zoomIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
   </style>
 </head>
 <body>
@@ -155,14 +199,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const wrapper = document.getElementById('envelope-wrapper');
 
   document.getElementById('openCard').addEventListener('click', () => {
-    // Mở nắp thư
     flap.style.transform = 'rotateX(180deg)';
-    // Thư trồi lên chậm hơn
-    setTimeout(() => {
-      letter.style.bottom = '10%';
-    }, 600);
-
-    // Sau 2.2s thì ẩn phong bì & phát nhạc
+    setTimeout(() => { letter.style.bottom = '10%'; }, 600);
     setTimeout(() => {
       wrapper.style.opacity = '0';
       wrapper.style.pointerEvents = 'none';
@@ -174,7 +212,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 </script>
-
 
 <!-- 🌸 Nội dung chính -->
 <div class="logo-container">
@@ -189,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="letter" id="letter">
   <div class="title">Gửi đến Thầy/Cô kính mến</div>
   <div class="message">
-   “Một đời người - một dòng sông. Mấy ai làm kẻ đứng trông bên bờ. Muốn qua sông phải luỵ đò. Đường đời muôn bước cậy nhờ người đưa”. Nếu như mỗi năm học qua đi là một chuyến đò, học trò là một người khách qua sông, thì thầy cô chính là người lái đò thầm lặng chèo lái con đò ấy với bến bờ tri thức.
+    “Một đời người - một dòng sông. Mấy ai làm kẻ đứng trông bên bờ. Muốn qua sông phải luỵ đò. Đường đời muôn bước cậy nhờ người đưa”. Nếu như mỗi năm học qua đi là một chuyến đò, học trò là một người khách qua sông, thì thầy cô chính là người lái đò thầm lặng chèo lái con đò ấy với bến bờ tri thức.
     <br>----------Bấm vào để xem tiếp----------
   </div>
 </div>
@@ -197,13 +234,30 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="card-overlay" id="overlay">
   <div class="card">
     <button class="close-btn" id="close">✕</button>
-    <img src="https://marketplace.canva.com/EAFNmUIGtTU/2/0/1600w/canva-m%C3%A0u-n%C3%A2u-m%E1%BB%99c-m%E1%BA%A1c-thi%E1%BB%87p-t%E1%BA%B7ng-th%E1%BA%A7y-c%C3%B4-m%E1%BB%ABng-ng%C3%A0y-nh%C3%A0-gi%C3%A1o-vi%E1%BB%87t-nam-20-11-8AYY7Z2dK84.jpg" alt="Thiệp chúc mừng">
-    <h2>Chúc Mừng Ngày Nhà Giáo Việt Nam</h2>
-    <p>Cảm ơn Thầy Cô đã dạy dỗ và nâng bước chúng em!  
-    <br>Chúc Thầy Cô mãi mạnh khỏe, hạnh phúc và thành công.</p>
+    <div style="position:relative;">
+      <img id="card-img" src="https://github.com/Taptanhvietcode12/NgayNhaGiaoVietNam/blob/main/B%C3%A0i%20%C4%91%C4%83ng%20Facebook%20Ch%C3%BAc%20m%E1%BB%ABng%20Nh%C3%A0%20gi%C3%A1o%20Vi%E1%BB%87t%20nam%202011%20Hi%E1%BB%87n%20%C4%91%E1%BA%A1i%20T%E1%BB%91i%20gi%E1%BA%A3n%20Xanh%20v%C3%A0ng%20(2).png?raw=true" alt="Thiệp chúc mừng">
+      <button class="zoom-btn" onclick="openZoom()">🔍 Phóng to</button>
+    </div>
+    <h2>Nhân Ngày Nhà Giáo Việt Nam 20/11</h2>
+    <p>Em xin kính chúc thầy cô luôn giữ mãi ngọn lửa nhiệt huyết,<br> để mỗi bài giảng vẫn là một khúc nhạc ngân nga, <br> mỗi trang phấn trắng vẫn là một bức họa đầy niềm tin.<br>
+Cầu mong cho thầy cô luôn khỏe mạnh, hạnh phúc, và mãi là ngọn hải đăng soi đường cho những con thuyền nhỏ giữa đại dương tri thức..</p>
     <div class="confetti" id="confetti"></div>
   </div>
 </div>
+
+<!-- 📸 Modal phóng to ảnh -->
+<div id="zoomModal" class="zoom-modal" onclick="closeZoom()">
+  <img id="zoomImg" src="https://github.com/Taptanhvietcode12/NgayNhaGiaoVietNam/blob/main/B%C3%A0i%20%C4%91%C4%83ng%20Facebook%20Ch%C3%BAc%20m%E1%BB%ABng%20Nh%C3%A0%20gi%C3%A1o%20Vi%E1%BB%87t%20nam%202011%20Hi%E1%BB%87n%20%C4%91%E1%BA%A1i%20T%E1%BB%91i%20gi%E1%BA%A3n%20Xanh%20v%C3%A0ng%20(2).png?raw=true" alt="Phóng to thiệp">
+</div>
+
+<script>
+function openZoom() {
+  document.getElementById("zoomModal").style.display = "flex";
+}
+function closeZoom() {
+  document.getElementById("zoomModal").style.display = "none";
+}
+</script>
 
 <script>
 const envelope = document.getElementById('envelope');
@@ -216,6 +270,7 @@ envelope.addEventListener('click', () => envelope.classList.add('open'));
 letter.addEventListener('click', () => { overlay.classList.add('show'); launchConfetti(); });
 closeBtn.addEventListener('click', () => { overlay.classList.remove('show'); confettiContainer.innerHTML = ''; });
 overlay.addEventListener('click', (e) => { if (e.target === overlay) { overlay.classList.remove('show'); confettiContainer.innerHTML = ''; }});
+
 function launchConfetti() {
   confettiContainer.innerHTML = '';
   const colors = ['#ff6b6b','#ffd166','#6bffb3','#6bd4ff','#b98bff'];
