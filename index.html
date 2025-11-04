@@ -5,240 +5,232 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mừng Ngày Nhà Giáo Việt Nam</title>
   <style>
-    .logo-container {
-  display: flex;
-  justify-content: center; /* căn giữa theo chiều ngang */
-  align-items: center;      /* căn giữa theo chiều dọc */
-  gap: 20px;                /* khoảng cách giữa các logo */
- margin-bottom: 70px;    /* tạo khoảng cách giữa logo và dòng chữ bên dưới */
-  margin-top: -150px;        /* cách phần tiêu đề phía dưới */
-}
-
-.logo-container img {
-  width: 50px;              /* chỉnh lại tùy kích thước logo */
-  height: auto;
-  transition: transform 0.3s ease;
-}
-
-.logo-container img:hover {
-  transform: scale(1.1);    /* phóng nhẹ khi di chuột */
-}
-
-    * {margin:0;padding:0;box-sizing:border-box;}
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(180deg, #fff6f8 0%, #fff 60%);
-      display:flex; flex-direction:column;
-      align-items:center; justify-content:center;
-      min-height:100vh;
-    }
-    h1 {
-      font-size:28px;
-      color:#b3475f;
-      text-align:center;
-      margin-bottom:30px;
-      letter-spacing:1px;
-    }
-    .envelope {
-      width:320px; height:320px;
-      background:url('https://png.pngtree.com/png-clipart/20230202/ourmid/pngtree-simple-love-envelopes-png-image_6583208.png') center/contain no-repeat;
-      position:relative;
-      margin-top: -50px;
-      cursor:pointer;
-      transition:transform 0.6s ease;
-      animation: up 3s linear infinite; 
-    }
-    @keyframes up {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);    /* 🔹 Dịch chuyển lên 30px rồi xuống lại */
-  }
-}
-    .envelope.open {
-      transform:translateY(-50px) scale(0.95);
-      opacity:0.3;
-    }
-    .letter {
-      width:300px; background:#fff;
-      border-radius:10px;
-      padding:20px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.1);
-      position:absolute;
-      top: 50%;
-      opacity:0;
-      transform:translateY(40px);
-      transition:opacity 0.8s ease, transform 0.8s ease;
-      cursor:pointer;
-    }
-    .envelope.open + .letter {
-      opacity:1;
-      transform:translateY(-10px);
-    }
-    .letter .title {
-      text-align:center;
-      color:#b3475f;
-      font-weight:bold;
-      font-size:20px;
-      margin-bottom:10px;
-    }
-    .letter .message {
-      font-size:15px;
-      color:#333;
-      line-height:1.6;
-    }
-    .card-overlay {
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,0.4);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .4s ease;
-    }
-    .card-overlay.show {
-      opacity:1;
-      pointer-events:auto;
-    }
-    .card {
-      background:#fff;
-      border-radius:12px;
-      box-shadow:0 20px 50px rgba(0,0,0,0.2);
-      width:600px; max-width:95vw;
-      padding:30px;
-      text-align:center;
-      position:relative;
-      overflow:hidden;
-       transform: translateY(0px);
-    }
-    .card img {
-      width:100%; border-radius:10px;
-      margin-bottom:15px;
-    }
-    .card h2 {
-      color:#b3475f;
-      margin-bottom:10px;
-    }
-    .close-btn {
-      position:absolute;
-      top:10px; right:15px;
-      background:none;
-      border:none;
-      font-size:22px;
-      cursor:pointer;
-      color:#b3475f;
-    }
-    /* Confetti */
-    .confetti span {
-      position:absolute;
-      width:10px; height:14px;
-      opacity:0;
-      animation:fall 3s linear forwards;
-    }
-   @keyframes fall {
-  0% {
-    opacity: 1;
-    transform: translateY(-20px) rotate(0);
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0; /* 🔹 mờ dần khi sắp chạm đất */
-    transform: translateY(600px) rotate(540deg);
-  }
-  
-} 
-    .falling-flower {
+/* 🌸 Hiệu ứng mở thiệp */
+#envelope-wrapper {
   position: fixed;
-  top: -10px;
-  font-size: 24px;
-  animation: fallFlower linear forwards;
-  pointer-events: none;
-   z-index: -1; /* 🌸 cho xuống lớp sau */
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: linear-gradient(135deg, #ffe6ea, #fff1d6);
+  z-index: 9999;
+  transition: opacity 1s ease;
 }
-@keyframes fallFlower {
-  to {
-    transform: translateY(100vh) rotate(360deg);
-    opacity: 0;
-  }
+
+/* Khung phong bì */
+.envelope {
+  position: relative;
+  width: 260px;
+  height: 180px;
+  background: #f6c6cf;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  overflow: hidden;
+  perspective: 1000px;
 }
+
+/* Thân phong bì */
+.envelope-body {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 70%;
+  background: #f6c6cf;
+  z-index: 1;
+}
+
+/* Nắp phong bì (đóng ban đầu) */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #f3aab8;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  transform: rotateX(0deg); /* ✅ Nắp đóng lúc đầu */
+  transition: transform 1s ease;
+  z-index: 2;
+}
+
+/* Lá thư – giấu sâu bên trong */
+.envelope-letter {
+  position: absolute;
+  bottom: -200%; /* ✅ Ẩn hoàn toàn */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  background: white;
+  color: #b3475f;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: bottom 1s ease 0.5s;
+  z-index: 0; /* dưới flap */
+}
+
+/* Nút mở thiệp */
+#openCard {
+  margin-top: 20px;
+  background: #b3475f;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+#openCard:hover { transform: scale(1.05); }
+
+
+/* 🌷 Các style cũ của bạn vẫn giữ nguyên phía dưới */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 70px;
+  margin-top: -150px;
+}
+.logo-container img { width: 50px; transition: transform 0.3s ease; }
+.logo-container img:hover { transform: scale(1.1); }
+* {margin:0;padding:0;box-sizing:border-box;}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #fff6f8 0%, #fff 60%);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  min-height:100vh;
+}
+h1 {
+  font-size:28px; color:#b3475f; text-align:center;
+  margin-bottom:30px; letter-spacing:1px;
+  background: linear-gradient(90deg, #ff6b6b, #f7d794, #b3475f);
+  -webkit-background-clip: text; color: transparent;
+  background-size: 300%; animation: glowText 5s infinite linear;
+  text-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+}
+@keyframes glowText { 0%{background-position:0%}100%{background-position:100%} }
+.envelope { width:320px;height:320px;background:url('https://png.pngtree.com/png-clipart/20230202/ourmid/pngtree-simple-love-envelopes-png-image_6583208.png') center/contain no-repeat;position:relative;margin-top:-50px;cursor:pointer;transition:transform 0.6s ease;animation:up 3s linear infinite; }
+@keyframes up {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.envelope.open {transform:translateY(-50px) scale(0.95);opacity:0.3;}
+.letter {width:300px;background:#fff;border-radius:10px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,0.1);position:absolute;top:50%;opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease;cursor:pointer;}
+.envelope.open + .letter {opacity:1;transform:translateY(-10px);}
+.letter .title {text-align:center;color:#b3475f;font-weight:bold;font-size:20px;margin-bottom:10px;}
+.letter .message {font-size:15px;color:#333;line-height:1.6;}
+.card-overlay {position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s ease;}
+.card-overlay.show {opacity:1;pointer-events:auto;}
+.card {background:#fff;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,0.2);width:600px;max-width:95vw;padding:30px;text-align:center;position:relative;overflow:hidden;}
+.card img {width:100%;border-radius:10px;margin-bottom:15px;}
+.card h2 {color:#b3475f;margin-bottom:10px;}
+.close-btn {position:absolute;top:10px;right:15px;background:none;border:none;font-size:22px;cursor:pointer;color:#b3475f;}
+.confetti span {position:absolute;width:10px;height:14px;opacity:0;animation:fall 3s linear forwards;}
+@keyframes fall {0%{opacity:1;transform:translateY(-20px) rotate(0);}90%{opacity:1;}100%{opacity:0;transform:translateY(600px) rotate(540deg);}}
+.falling-flower {position:fixed;top:-10px;font-size:24px;animation:fallFlower linear forwards;pointer-events:none;z-index:-1;}
+@keyframes fallFlower {to{transform:translateY(100vh) rotate(360deg);opacity:0;}}
   </style>
 </head>
 <body>
-     <div class="logo-container">
+
+<!-- 💌 Hiệu ứng mở thiệp -->
+<div id="envelope-wrapper">
+  <div class="envelope">
+    <div class="envelope-flap"></div>
+    <div class="envelope-body"></div>
+    <div class="envelope-letter">🌷 Chúc mừng Ngày Nhà Giáo Việt Nam 🌷</div>
+  </div>
+  <button id="openCard">Mở thiệp 💌</button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const flap = document.querySelector('.envelope-flap');
+  const letter = document.querySelector('.envelope-letter');
+  const wrapper = document.getElementById('envelope-wrapper');
+
+  document.getElementById('openCard').addEventListener('click', () => {
+    // Mở nắp thư
+    flap.style.transform = 'rotateX(180deg)';
+    // Thư trồi lên chậm hơn
+    setTimeout(() => {
+      letter.style.bottom = '10%';
+    }, 600);
+
+    // Sau 2.2s thì ẩn phong bì & phát nhạc
+    setTimeout(() => {
+      wrapper.style.opacity = '0';
+      wrapper.style.pointerEvents = 'none';
+      if (window.player && player.playVideo) {
+        player.playVideo();
+        player.setVolume(50);
+      }
+    }, 2200);
+  });
+});
+</script>
+
+
+<!-- 🌸 Nội dung chính -->
+<div class="logo-container">
  <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/0/09/Huy_Hi%E1%BB%87u_%C4%90o%C3%A0n.png/250px-Huy_Hi%E1%BB%87u_%C4%90o%C3%A0n.png" alt="Logo 2">
   <img src="https://upload.wikimedia.org/wikipedia/vi/4/43/%C4%90%E1%BA%A1i_h%E1%BB%8Dc_%C4%90%E1%BB%93ng_Th%C3%A1p.png"alt="Logo 1">
   <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/d/dd/Huy_hi%E1%BB%87u_H%E1%BB%99i_SVVN.svg/500px-Huy_hi%E1%BB%87u_H%E1%BB%99i_SVVN.svg.png" alt="Logo 3">
 </div>
 
-  <h1 style="font-size: 40px;""> CHÀO MỪNG NGÀY NHÀ GIÁO VIỆT NAM<br> 20/11</h1>
+<h1 style="font-size: 40px;">CHÀO MỪNG NGÀY NHÀ GIÁO VIỆT NAM<br>20/11</h1>
 
-  <div class="envelope" id="envelope"></div>
-  <div class="letter" id="letter">
-    <div class="title">Gửi đến Thầy/Cô kính mến</div>
-    <div class="message">
-      Xin chúc Thầy Cô thật nhiều sức khỏe, hạnh phúc, và luôn giữ mãi ngọn lửa nhiệt huyết trong sự nghiệp trồng người.  
-      <br >--------Bấm vào để xem bức thư-------
-    </div>
+<div class="envelope" id="envelope"></div>
+<div class="letter" id="letter">
+  <div class="title">Gửi đến Thầy/Cô kính mến</div>
+  <div class="message">
+   “Một đời người - một dòng sông. Mấy ai làm kẻ đứng trông bên bờ. Muốn qua sông phải luỵ đò. Đường đời muôn bước cậy nhờ người đưa”. Nếu như mỗi năm học qua đi là một chuyến đò, học trò là một người khách qua sông, thì thầy cô chính là người lái đò thầm lặng chèo lái con đò ấy với bến bờ tri thức.
+    <br>----------Bấm vào để xem tiếp----------
   </div>
-  <div class="card-overlay" id="overlay">
-    <div class="card">
-      <button class="close-btn" id="close">✕</button>
-      <img src="https://marketplace.canva.com/EAFNmUIGtTU/2/0/1600w/canva-m%C3%A0u-n%C3%A2u-m%E1%BB%99c-m%E1%BA%A1c-thi%E1%BB%87p-t%E1%BA%B7ng-th%E1%BA%A7y-c%C3%B4-m%E1%BB%ABng-ng%C3%A0y-nh%C3%A0-gi%C3%A1o-vi%E1%BB%87t-nam-20-11-8AYY7Z2dK84.jpg" alt="Thiệp chúc mừng">
-      <h2>Chúc Mừng Ngày Nhà Giáo Việt Nam</h2>
-      <p>Cảm ơn Thầy Cô đã dạy dỗ và nâng bước chúng em!  
-      <br>Chúc Thầy Cô mãi mạnh khỏe, hạnh phúc và thành công.</p>
-      <div class="confetti" id="confetti"></div>
-    </div>
+</div>
+
+<div class="card-overlay" id="overlay">
+  <div class="card">
+    <button class="close-btn" id="close">✕</button>
+    <img src="https://marketplace.canva.com/EAFNmUIGtTU/2/0/1600w/canva-m%C3%A0u-n%C3%A2u-m%E1%BB%99c-m%E1%BA%A1c-thi%E1%BB%87p-t%E1%BA%B7ng-th%E1%BA%A7y-c%C3%B4-m%E1%BB%ABng-ng%C3%A0y-nh%C3%A0-gi%C3%A1o-vi%E1%BB%87t-nam-20-11-8AYY7Z2dK84.jpg" alt="Thiệp chúc mừng">
+    <h2>Chúc Mừng Ngày Nhà Giáo Việt Nam</h2>
+    <p>Cảm ơn Thầy Cô đã dạy dỗ và nâng bước chúng em!  
+    <br>Chúc Thầy Cô mãi mạnh khỏe, hạnh phúc và thành công.</p>
+    <div class="confetti" id="confetti"></div>
   </div>
-  <script>
-    const envelope = document.getElementById('envelope');
-    const letter = document.getElementById('letter');
-    const overlay = document.getElementById('overlay');
-    const closeBtn = document.getElementById('close');
-    const confettiContainer = document.getElementById('confetti');
+</div>
 
-    envelope.addEventListener('click', () => {
-      envelope.classList.add('open');
-    });
+<script>
+const envelope = document.getElementById('envelope');
+const letter = document.getElementById('letter');
+const overlay = document.getElementById('overlay');
+const closeBtn = document.getElementById('close');
+const confettiContainer = document.getElementById('confetti');
 
-    letter.addEventListener('click', () => {
-      overlay.classList.add('show');
-      launchConfetti();
-    });
+envelope.addEventListener('click', () => envelope.classList.add('open'));
+letter.addEventListener('click', () => { overlay.classList.add('show'); launchConfetti(); });
+closeBtn.addEventListener('click', () => { overlay.classList.remove('show'); confettiContainer.innerHTML = ''; });
+overlay.addEventListener('click', (e) => { if (e.target === overlay) { overlay.classList.remove('show'); confettiContainer.innerHTML = ''; }});
+function launchConfetti() {
+  confettiContainer.innerHTML = '';
+  const colors = ['#ff6b6b','#ffd166','#6bffb3','#6bd4ff','#b98bff'];
+  for (let i=0; i<40; i++) {
+    const c = document.createElement('span');
+    c.style.left = Math.random()*100 + '%';
+    c.style.top = (Math.random()*-20) + '%';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay = (Math.random()*2)+'s';
+    confettiContainer.appendChild(c);
+  }
+}
+</script>
 
-    closeBtn.addEventListener('click', () => {
-      overlay.classList.remove('show');
-      confettiContainer.innerHTML = '';
-    });
-
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        overlay.classList.remove('show');
-        confettiContainer.innerHTML = '';
-      }
-    });
-
-    function launchConfetti() {
-      confettiContainer.innerHTML = '';
-      const colors = ['#ff6b6b','#ffd166','#6bffb3','#6bd4ff','#b98bff'];
-      for (let i=0; i<40; i++) {
-        const c = document.createElement('span');
-        c.style.left = Math.random()*100 + '%';
-        c.style.top = (Math.random()*-20) + '%';
-        c.style.background = colors[Math.floor(Math.random()*colors.length)];
-        c.style.animationDelay = (Math.random()*2)+'s';
-        confettiContainer.appendChild(c);
-      }
-      
-    }
-  </script>
-  <div class="flowers" id="flowers"></div>
-
+<div class="flowers" id="flowers"></div>
 <script>
 const flowersContainer = document.getElementById('flowers');
 function createFlower() {
@@ -251,6 +243,31 @@ function createFlower() {
   setTimeout(() => flower.remove(), 6000);
 }
 setInterval(createFlower, 400);
+</script>
+
+<!-- 🎵 Nhạc nền YouTube -->
+<div id="yt-player" style="display:none;"></div>
+<script>
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+document.body.appendChild(tag);
+var player;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt-player', {
+    height: '0',
+    width: '0',
+    videoId: 'sj_UDyfoo-A',
+    playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'sj_UDyfoo-A' },
+  });
+}
+</script>
+<button id="toggleYT" style="position:fixed;bottom:20px;left:20px;background:#b3475f;color:white;border:none;border-radius:50%;width:50px;height:50px;font-size:20px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.2);">▶️</button>
+<script>
+const btn = document.getElementById('toggleYT');
+btn.addEventListener('click', () => {
+  if (player.getPlayerState() !== 1) { player.playVideo(); btn.textContent = "⏸️"; }
+  else { player.pauseVideo(); btn.textContent = "▶️"; }
+});
 </script>
 
 </body>
