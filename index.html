@@ -113,6 +113,24 @@
   transition: bottom 1s ease 0.5s;
   z-index: 0;
 }
+@keyframes sparkle {
+  0%,100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+.sparkle {
+  position: absolute;
+  width: 5px; height: 5px;
+  background: radial-gradient(circle, #fff, transparent);
+  border-radius: 50%;
+  animation: sparkle 1.5s infinite ease-in-out;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+#toggleMusic {
+  animation: pulse 2s infinite;
+}
 
 /* Nút mở thiệp */
 #openCard {
@@ -474,5 +492,17 @@ toggleBtn.addEventListener('click', () => {
   }
 });
 </script>
+
+<script>
+for(let i=0;i<20;i++){
+  const s=document.createElement('div');
+  s.className='sparkle';
+  s.style.left=Math.random()*100+'%';
+  s.style.top=Math.random()*100+'%';
+  s.style.animationDelay=Math.random()*2+'s';
+  document.querySelector('.card').appendChild(s);
+}
+</script>
 </body>
 </html>
+
