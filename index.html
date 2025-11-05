@@ -25,6 +25,39 @@
   z-index: 9999;
   transition: opacity 1s ease;
 }
+.logo-text {
+  text-align: center;
+  margin-top: -70px;
+ margin-bottom: 40px;
+  line-height: 1.4;
+}
+.logo-text {
+  opacity: 0;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+
+.logo-text h3 {
+  color: #004aad; /* xanh đậm */
+  font-weight: 700;
+  font-size: 18px;
+  margin: 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.logo-text p {
+  color: #e53935; /* đỏ tươi */
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
 
 /* Khung phong bì */
 .envelope {
@@ -256,7 +289,10 @@ h1 {
   <img src="https://upload.wikimedia.org/wikipedia/vi/4/43/%C4%90%E1%BA%A1i_h%E1%BB%8Dc_%C4%90%E1%BB%93ng_Th%C3%A1p.png"alt="Logo 1">
   <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/d/dd/Huy_hi%E1%BB%87u_H%E1%BB%99i_SVVN.svg/500px-Huy_hi%E1%BB%87u_H%E1%BB%99i_SVVN.svg.png" alt="Logo 3">
 </div>
-
+  <div class="logo-text">
+  <h3>TUỔI TRẺ TRƯỜNG ĐẠI HỌC ĐỒNG THÁP</h3>
+  <p>THE YOUTH OF DONG THAP UNIVERSITY</p>
+</div>
 <h1 style="font-size: 40px;">CHÀO MỪNG NGÀY NHÀ GIÁO VIỆT NAM<br>20/11</h1>
 
 <div class="envelope" id="envelope"></div>
@@ -438,4 +474,5 @@ toggleBtn.addEventListener('click', () => {
   }
 });
 </script>
-
+</body>
+</html>
