@@ -355,6 +355,8 @@ const confettiContainer = document.getElementById('confetti');
 
 // mở phong bì -> hiện thiệp nhỏ
 document.getElementById('openCard').addEventListener('click', () => {
+  if (openSoundPlayer) openSoundPlayer.playVideo();
+
   flap.style.transform = 'rotateX(180deg)';
   setTimeout(() => { letterInside.style.bottom = '10%'; }, 600);
   setTimeout(() => {
@@ -503,6 +505,27 @@ for(let i=0;i<20;i++){
   document.querySelector('.card').appendChild(s);
 }
 </script>
+<div id="open-sound-player" style="display:none;"></div>
+<script>
+var openSoundPlayer;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt-player', {   // nhạc nền có sẵn
+    height: '0',
+    width: '0',
+    videoId: 'sj_UDyfoo-A',
+    playerVars: { autoplay: 1, loop: 1, playlist: 'sj_UDyfoo-A', mute: 1 },
+    events: { onReady: (event) => event.target.playVideo() }
+  });
+
+  // 👉 thêm player hiệu ứng mở thư
+  openSoundPlayer = new YT.Player('open-sound-player', {
+    height: '0',
+    width: '0',
+    videoId: 'uhMvmgO3qrU', // thay bằng mã YouTube bạn muốn
+    playerVars: { autoplay: 0, controls: 0, start: 2 },
+  });
+}
+</script>
+
 </body>
 </html>
-
